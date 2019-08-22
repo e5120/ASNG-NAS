@@ -12,7 +12,7 @@ From: continuumio/anaconda3:latest
   export PATH=/opt/conda/bin:$PATH
   . /etc/profile.d/conda.sh
 
-  apt-get update && install -y libgtk2.0-dev libgtk2.0-0
+  apt-get update
   apt-get install -y libgl1-mesa-dev libgl1-mesa-glx
 
   conda create -n env36 python=3.6
