@@ -9,7 +9,13 @@ from fxc import fxc1
 from opt import run
 
 
-def experiment(alg='ASNG', eta_x=0.1, eta_theta_factor=0., alpha=1.5, K=5, D=30, maxite=100000, log_file='log.csv'):
+def experiment(alg='ASNG', eta_x=0.1, eta_theta_factor=0., alpha=1.5, K=5, D=30, maxite=100000, log_file='log.csv', seed=-1):
+    if seed >= 0:
+        np.random.seed(seed)
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed(seed)
+
     nc = (K-1) * D
     f = fxc1(K, D, noise=True)
     categories = K * np.ones(D, dtype=np.int)
@@ -35,4 +41,4 @@ if __name__ == '__main__':
     # alg: 'ASNG' or 'SNG' or 'Adam'
     # eta_x: step-size for x
     # eta_theta_factor: step-size for $\theta$ is 4n_c^(-eta_theta_factor)$
-    experiment(alg='ASNG', eta_x=0.05, eta_theta_factor=0., alpha=1.5, K=5, D=30, maxite=100000, log_file='log.csv')
+    experiment(alg='ASNG', eta_x=0.05, eta_theta_factor=0., alpha=1.5, K=5, D=30, maxite=100000, log_file='log.csv', seed=-1)
