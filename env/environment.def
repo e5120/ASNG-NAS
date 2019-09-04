@@ -1,0 +1,33 @@
+Bootstrap: docker
+From: continuumio/anaconda3:latest
+
+%setup
+
+%environment
+  export LC_ALL=C.UTF-8
+  export LANG=C.UTF-8
+  export PATH=/opt/conda/bin:$PATH
+
+%post
+  export PATH=/opt/conda/bin:$PATH
+  . /etc/profile.d/conda.sh
+
+  apt-get update
+  apt-get install -y libgl1-mesa-dev libgl1-mesa-glx
+
+  conda create -n env36 python=3.6
+  conda activate env36
+  conda install -c conda-forge opencv
+  conda install pytorch torchvision cudatoolkit=9.2 -c pytorch
+  conda install cython
+  conda deactivate
+
+  echo ". /etc/profile.d/conda.sh" >> /etc/bashrc
+  echo "conda activate env36" >> /etc/bashrc
+
+%labels
+  Author shimadu
+  Version v0.1.0
+
+%help
+  This is a container that is prepared OpenCV and Pytorch environment on Linux
